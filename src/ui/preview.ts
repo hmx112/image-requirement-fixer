@@ -6,44 +6,16 @@ export class PreviewController {
   private bitmap?: ImageBitmap;
   private pointers = new Map<number, { x: number; y: number }>();
   private pinchDistance?: number;
-  private mousePosition?: { x: number; y: number };
 
   constructor(private canvas: HTMLCanvasElement, private onCropChange: (centerX: number, centerY: number, zoom?: number) => void) {
-    // Mouse input uses explicit mouse events. This avoids depending on browser
-    // compatibility mapping between mouse and Pointer Events.
-    canvas.addEventListener('mousedown', (event) => {
-      event.preventDefault();
-      this.mousePosition = { x: event.clientX, y: event.clientY };
-    });
-    window.addEventListener('mousemove', (event) => {
-      const previous = this.mousePosition;
-      if (!previous) return;
-      const next = { x: event.clientX, y: event.clientY };
-      this.mousePosition = next;
-      const rect = this.canvas.getBoundingClientRect();
-      this.onCropChange(-(next.x - previous.x) / Math.max(1, rect.width), -(next.y - previous.y) / Math.max(1, rect.height));
-    });
-    window.addEventListener('mouseup', () => { this.mousePosition = undefined; });
-
-    // Pointer input is reserved for touch and pen so compatibility mouse events
-    // cannot apply the same movement twice.
     canvas.addEventListener('pointerdown', (event) => {
-      if (event.pointerType === 'mouse') return;
-      event.preventDefault();
+      canvas.setPointerCapture(event.pointerId);
       this.pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
       this.updatePinchDistance();
     });
-    window.addEventListener('pointermove', (event) => {
-      if (event.pointerType === 'mouse') return;
-      this.handlePointerMove(event);
-    });
-    const end = (event: PointerEvent) => {
-      if (event.pointerType === 'mouse' || !this.pointers.has(event.pointerId)) return;
-      this.pointers.delete(event.pointerId);
-      this.updatePinchDistance();
-    };
-    window.addEventListener('pointerup', end);
-    window.addEventListener('pointercancel', end);
+    canvas.addEventListener('pointermove', (event) => this.handlePointerMove(event));
+    const end = (event: PointerEvent) => { this.pointers.delete(event.pointerId); this.updatePinchDistance(); };
+    canvas.addEventListener('pointerup', end); canvas.addEventListener('pointercancel', end);
   }
 
   async setFile(file: File): Promise<{ width: number; height: number }> {
