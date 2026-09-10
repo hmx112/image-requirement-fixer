@@ -27,7 +27,10 @@ jobs:
             .bootstrap/source.b64.04 \
             .bootstrap/source.b64.05 \
             .bootstrap/source.b64.06 \
-            .bootstrap/fix07.0 .bootstrap/fix07.1 .bootstrap/fix07.2 \
+            .bootstrap/fix07.0a .bootstrap/fix07.0b \
+            .bootstrap/fix07.1a0 .bootstrap/fix07.1a1 \
+            .bootstrap/fix07.1b0 .bootstrap/fix07.1b1 .bootstrap/fix07.1b2 .bootstrap/fix07.1b3 \
+            .bootstrap/fix07.2 \
             .bootstrap/source.b64.08 | base64 -d > /tmp/source.zip
           echo "05af6a6371ee46bf23edfee08345d6523cd4d331e8b2b081d298844951020d84  /tmp/source.zip" | sha256sum -c -
           python - <<'PY'
