@@ -1,12 +1,13 @@
+import { readFileSync } from 'node:fs';
 import { expect, test } from '@playwright/test';
 
-const onePixelPngBase64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Y9ZP14AAAAASUVORK5CYII=';
-const onePixelPng = Buffer.from(onePixelPngBase64, 'base64');
+const transparentPng = readFileSync(new URL('../fixtures/generated/transparent.png', import.meta.url));
+const transparentPngBase64 = transparentPng.toString('base64');
 
 test('shows local-processing trust copy and parser-filled editable fields', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByText('100% Local Processing')).toBeVisible();
-  await page.locator('input[type=file]').setInputFiles({ name: 'tiny.png', mimeType: 'image/png', buffer: onePixelPng });
+  await page.locator('input[type=file]').setInputFiles({ name: 'transparent.png', mimeType: 'image/png', buffer: transparentPng });
   await page.locator('[name=requirementText]').fill('Photo must be JPG format, 600 x 600 pixels and less than 200 KB.');
   await page.getByRole('button', { name: 'Detect requirements' }).click();
   await expect(page.locator('[name=width]')).toHaveValue('600');
@@ -34,15 +35,7 @@ test('accepts a PNG dropped onto the upload zone', async ({ page }) => {
     const transfer = new DataTransfer();
     transfer.items.add(new File([bytes], 'dropped.png', { type: 'image/png' }));
     return transfer;
-  }, onePixelPngBase64);
-
-  const transferInfo = await dataTransfer.evaluate((transfer: DataTransfer) => ({
-    files: transfer.files.length,
-    items: transfer.items.length,
-    type: transfer.files[0]?.type,
-    name: transfer.files[0]?.name,
-  }));
-  expect(transferInfo).toEqual({ files: 1, items: 1, type: 'image/png', name: 'dropped.png' });
+  }, transparentPngBase64);
 
   await dropzone.dispatchEvent('dragenter', { dataTransfer });
   await expect(dropzone).toHaveClass(/is-dragging/);
@@ -50,10 +43,7 @@ test('accepts a PNG dropped onto the upload zone', async ({ page }) => {
   await dropzone.dispatchEvent('drop', { dataTransfer });
 
   await expect(dropzone).not.toHaveClass(/is-dragging/);
-  await page.waitForTimeout(300);
-  const summaryText = await page.locator('[data-source-summary]').textContent();
-  console.log('DROP_DIAGNOSTIC', JSON.stringify({ transferInfo, summaryText }));
   await expect(page.getByText('Original image')).toBeVisible();
-  await expect(page.getByText('1×1 px')).toBeVisible();
+  await expect(page.getByText('900×600 px')).toBeVisible();
   await expect(page.locator('[data-source-summary]')).toContainText('PNG');
 });
