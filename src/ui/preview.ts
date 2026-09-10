@@ -31,7 +31,8 @@ export class PreviewController {
     const scale = Math.min(maxWidth / target.width, maxHeight / target.height, 1);
     const width = Math.max(1, Math.round(target.width * scale));
     const height = Math.max(1, Math.round(target.height * scale));
-    this.canvas.width = width; this.canvas.height = height;
+    if (this.canvas.width !== width) this.canvas.width = width;
+    if (this.canvas.height !== height) this.canvas.height = height;
     const ctx = this.canvas.getContext('2d'); if (!ctx) return;
     ctx.clearRect(0, 0, width, height);
     renderToContext(ctx, this.bitmap, this.bitmap.width, this.bitmap.height, {
