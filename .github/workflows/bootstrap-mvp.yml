@@ -19,12 +19,23 @@ jobs:
       - name: Rebuild source archive
         shell: bash
         run: |
-          cat .bootstrap/part.* | base64 -d > /tmp/source.zip
+          cat \
+            .bootstrap/source.b64.00 .bootstrap/fix00.tail \
+            .bootstrap/source.b64.01 \
+            .bootstrap/source.b64.02 \
+            .bootstrap/source.b64.03 \
+            .bootstrap/source.b64.04 \
+            .bootstrap/source.b64.05 \
+            .bootstrap/source.b64.06 \
+            .bootstrap/fix07.0 .bootstrap/fix07.1 .bootstrap/fix07.2 \
+            .bootstrap/source.b64.08 | base64 -d > /tmp/source.zip
           echo "05af6a6371ee46bf23edfee08345d6523cd4d331e8b2b081d298844951020d84  /tmp/source.zip" | sha256sum -c -
           python - <<'PY'
           import zipfile
           with zipfile.ZipFile('/tmp/source.zip') as z:
-              z.testzip() is None or (_ for _ in ()).throw(RuntimeError('Corrupt zip member'))
+              bad = z.testzip()
+              if bad is not None:
+                  raise RuntimeError(f'Corrupt zip member: {bad}')
               z.extractall('.')
           PY
           rm -rf .bootstrap .github/workflows/bootstrap-mvp.yml
