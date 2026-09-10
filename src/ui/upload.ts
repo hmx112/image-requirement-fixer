@@ -3,6 +3,7 @@ import { reduceRatio } from '../core/dimensions.js';
 
 export interface UploadView {
   input: HTMLInputElement;
+  dropzone: HTMLLabelElement;
   summary: HTMLDivElement;
 }
 
@@ -12,16 +13,17 @@ export function renderUploadSection(container: HTMLElement): UploadView {
       <p class="eyebrow">100% Local Processing</p>
       <h2>Upload your image</h2>
       <p class="muted">Your image never leaves your device.</p>
-      <label class="dropzone">
+      <label class="dropzone" data-dropzone>
         <input type="file" accept="image/jpeg,image/png,image/webp" />
-        <span class="dropzone-title">Choose JPG, PNG or WebP</span>
-        <span class="muted small">Tap to select an image from this device.</span>
+        <span class="dropzone-title">Drag &amp; drop an image here</span>
+        <span class="muted small">or click to browse JPG, PNG or WebP</span>
       </label>
       <div class="source-summary" data-source-summary hidden></div>
     </section>
   `;
   return {
     input: container.querySelector<HTMLInputElement>('input[type=file]')!,
+    dropzone: container.querySelector<HTMLLabelElement>('[data-dropzone]')!,
     summary: container.querySelector<HTMLDivElement>('[data-source-summary]')!,
   };
 }
