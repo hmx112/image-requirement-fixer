@@ -9,13 +9,21 @@ export class PreviewController {
 
   constructor(private canvas: HTMLCanvasElement, private onCropChange: (centerX: number, centerY: number, zoom?: number) => void) {
     canvas.addEventListener('pointerdown', (event) => {
-      canvas.setPointerCapture(event.pointerId);
+      event.preventDefault();
       this.pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
       this.updatePinchDistance();
     });
-    canvas.addEventListener('pointermove', (event) => this.handlePointerMove(event));
-    const end = (event: PointerEvent) => { this.pointers.delete(event.pointerId); this.updatePinchDistance(); };
-    canvas.addEventListener('pointerup', end); canvas.addEventListener('pointercancel', end);
+
+    // Track active drags at window level so crop repositioning keeps working even
+    // if the pointer leaves the canvas or the browser drops element-level capture.
+    window.addEventListener('pointermove', (event) => this.handlePointerMove(event));
+    const end = (event: PointerEvent) => {
+      if (!this.pointers.has(event.pointerId)) return;
+      this.pointers.delete(event.pointerId);
+      this.updatePinchDistance();
+    };
+    window.addEventListener('pointerup', end);
+    window.addEventListener('pointercancel', end);
   }
 
   async setFile(file: File): Promise<{ width: number; height: number }> {
