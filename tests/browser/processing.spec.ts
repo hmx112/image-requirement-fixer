@@ -11,6 +11,7 @@ async function fillTarget(page: Page, options: { width?: string; height?: string
 }
 
 async function readOutputPixel(page: Page, x: number, y: number) {
+  await page.locator('[data-download]').waitFor({ state: 'attached' });
   return page.evaluate(async ({ x, y }) => {
     const anchor = document.querySelector<HTMLAnchorElement>('[data-download]')!;
     const blob = await fetch(anchor.href).then((response) => response.blob());
