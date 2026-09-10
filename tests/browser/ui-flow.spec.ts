@@ -27,17 +27,21 @@ test('shows a concise main hero and drag-drop upload copy', async ({ page }) => 
 test('accepts a PNG dropped onto the upload zone', async ({ page }) => {
   await page.goto('/');
   const dropzone = page.locator('[data-dropzone]');
-  await dropzone.evaluate((element, base64) => {
+  const dataTransfer = await page.evaluateHandle((base64) => {
     const binary = atob(base64);
     const bytes = new Uint8Array(binary.length);
     for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
-    const file = new File([bytes], 'dropped.png', { type: 'image/png' });
-    const dataTransfer = new DataTransfer();
-    dataTransfer.items.add(file);
-    element.dispatchEvent(new DragEvent('dragover', { bubbles: true, cancelable: true, dataTransfer }));
-    element.dispatchEvent(new DragEvent('drop', { bubbles: true, cancelable: true, dataTransfer }));
+    const transfer = new DataTransfer();
+    transfer.items.add(new File([bytes], 'dropped.png', { type: 'image/png' }));
+    return transfer;
   }, onePixelPngBase64);
 
+  await dropzone.dispatchEvent('dragenter', { dataTransfer });
+  await expect(dropzone).toHaveClass(/is-dragging/);
+  await dropzone.dispatchEvent('dragover', { dataTransfer });
+  await dropzone.dispatchEvent('drop', { dataTransfer });
+
+  await expect(dropzone).not.toHaveClass(/is-dragging/);
   await expect(page.getByText('Original image')).toBeVisible();
   await expect(page.getByText('1×1 px')).toBeVisible();
   await expect(page.locator('[data-source-summary]')).toContainText('PNG');
