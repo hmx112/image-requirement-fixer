@@ -4,8 +4,7 @@ on:
   push:
     branches: ["feat/mvp"]
     paths:
-      - ".bootstrap/**"
-      - ".github/workflows/bootstrap-mvp.yml"
+      - ".bootstrap/READY"
 
 permissions:
   contents: write
