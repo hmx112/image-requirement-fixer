@@ -7,7 +7,7 @@ export interface PagePreset {
 }
 
 const presets: Record<string, PagePreset> = {
-  '/': { title: 'Image Requirement Fixer', heading: 'Fix images that don’t meet upload requirements', description: 'Match file size, dimensions and format in one flow.', focus: 'all' },
+  '/': { title: 'Image Requirement Fixer', heading: 'Fix Your Image for Upload', description: 'Size, dimensions, format — all in one.', focus: 'all' },
   '/image-compressor/': { title: 'Compress Image to a Maximum File Size', heading: 'Compress an image to the size limit you need', description: 'Enter the maximum KB or MB and keep the highest available quality.', focus: 'size' },
   '/image-resizer/': { title: 'Resize Image to Exact Dimensions', heading: 'Resize an image to exact pixel dimensions', description: 'Set width and height, then choose how mismatched aspect ratios are handled.', focus: 'dimensions' },
   '/image-format-converter/': { title: 'Image Format Converter', heading: 'Convert JPG, PNG and WebP locally', description: 'Convert formats without uploading your image.', focus: 'format' },
