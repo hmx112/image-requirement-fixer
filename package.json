@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
-    "test": "vitest run",
-    "test:watch": "vitest",
+    "test": "vitest run tests/unit",
+    "test:watch": "vitest tests/unit",
     "test:browser": "playwright test",
     "check": "npm run test && npm run build",
     "fixtures": "node tests/fixtures/generate-fixtures.mjs"
