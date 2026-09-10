@@ -1,0 +1,60 @@
+:root {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #172033;
+  background: #f4f7fb;
+  color-scheme: light;
+  font-synthesis: none;
+}
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; background: radial-gradient(circle at 50% 0%, #eef7ff 0, #f4f7fb 38rem); }
+button, input, select, textarea { font: inherit; }
+button, input, select { min-height: 44px; }
+button, a { -webkit-tap-highlight-color: transparent; }
+.shell { width: min(100% - 24px, 760px); margin: 0 auto; padding: 24px 0 56px; }
+.hero { padding: 14px 4px 10px; }
+.brand, .eyebrow { color: #0a6d70; font-size: .78rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+h1 { margin: .35rem 0 .7rem; font-size: clamp(2rem, 9vw, 3.6rem); line-height: 1.02; letter-spacing: -.045em; }
+h2 { margin: 0; font-size: 1.18rem; } h3 { margin: 24px 0 10px; }
+p { line-height: 1.55; } .muted { color: #647084; } .small { font-size: .86rem; }
+.card { background: rgba(255,255,255,.96); border: 1px solid #e0e7ef; border-radius: 20px; padding: 18px; margin: 14px 0; box-shadow: 0 10px 30px rgba(40,65,100,.05); }
+.section-heading { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 16px; }
+.step-number { display: inline-grid; place-items: center; flex: 0 0 28px; height: 28px; border-radius: 999px; background: #e6f5f4; color: #096669; font-weight: 800; }
+.dropzone { display: grid; gap: 5px; place-items: center; padding: 26px 16px; border: 1.5px dashed #9bb4c5; border-radius: 16px; background: #f8fbfd; text-align: center; cursor: pointer; }
+.dropzone input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.dropzone-title { font-weight: 800; color: #0d6267; }
+.source-summary { margin-top: 16px; padding-top: 14px; border-top: 1px solid #e8edf3; }
+.summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0 0; }
+dt { color: #6b7484; font-size: .78rem; } dd { margin: 3px 0 0; font-weight: 750; }
+.field { display: grid; gap: 6px; font-weight: 650; } .field small { color: #778094; font-weight: 500; }
+.field input, .field select, .field textarea, textarea, select, input { width: 100%; border: 1px solid #cfd8e3; border-radius: 11px; padding: 10px 12px; background: #fff; color: inherit; }
+textarea { resize: vertical; min-height: 104px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; margin-top: 15px; } .full { grid-column: 1 / -1; }
+.input-pair { display: grid; grid-template-columns: 1fr 84px; gap: 7px; }
+.button-secondary, .button-quiet { border: 1px solid #cbd7e2; border-radius: 11px; background: #fff; padding: 9px 14px; cursor: pointer; }
+.button-secondary { margin-top: 10px; font-weight: 750; }
+.button-quiet { color: #526075; }
+.parser-warnings, .input-error, .notice { margin-top: 12px; padding: 10px 12px; border-radius: 11px; background: #fff4e6; color: #81501a; }
+.parser-warnings p { margin: 0; }
+.choice-list { display: grid; gap: 9px; }
+.choice-card { display: flex; gap: 11px; align-items: flex-start; padding: 13px; border: 1px solid #d9e2eb; border-radius: 14px; cursor: pointer; }
+.choice-card input { width: 20px; min-height: 20px; margin: 2px 0 0; }
+.choice-card span { display: grid; gap: 3px; } .choice-card small { color: #68758a; }
+.more-options { margin-top: 4px; } .more-options summary { cursor: pointer; color: #59677b; font-weight: 700; padding: 6px 2px; }
+.crop-controls, .fit-controls, .jpg-flatten { border-top: 1px solid #e7ecf2; margin-top: 16px; padding-top: 15px; }
+.background-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 9px; }
+.background-grid label { padding: 10px; border: 1px solid #d9e2eb; border-radius: 10px; }
+.background-grid input { width: auto; min-height: 0; }
+.compact { margin-top: 12px; max-width: 260px; }.field-label { margin: 0 0 8px; font-weight: 750; }
+.preview-stage { display: grid; place-items: center; touch-action: none; overflow: hidden; border-radius: 16px; min-height: 180px; background: repeating-conic-gradient(#eef2f5 0 25%, #fff 0 50%) 50% / 20px 20px; }
+.preview-stage canvas { display: block; max-width: 100%; max-height: 65vh; object-fit: contain; cursor: grab; }
+.action-card { position: sticky; bottom: 8px; z-index: 5; padding: 10px; backdrop-filter: blur(12px); background: rgba(255,255,255,.9); }
+.action-primary { display: grid; place-items: center; width: 100%; min-height: 52px; border: 0; border-radius: 14px; padding: 12px 16px; background: #08777a; color: #fff; font-weight: 800; text-decoration: none; cursor: pointer; }
+.action-primary:disabled { opacity: .45; cursor: not-allowed; }.processing-status { text-align: center; margin: 8px 0 0; color: #59677b; }
+.result-card h2 { font-size: 1.5rem; }.success-card { border-color: #b9ded7; }.error-card { border-color: #eccca8; }
+.compliance-list { display: grid; gap: 8px; margin-top: 16px; }.compliance-row { display: grid; grid-template-columns: 1fr 1.25fr auto; gap: 8px; align-items: center; font-size: .9rem; }.pass { color: #08705b; }.fail { color: #a33a2c; }
+.compare-grid { display: grid; gap: 7px; }.compare-grid > div { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; padding: 9px 0; border-bottom: 1px solid #edf0f4; }.compare-grid span { color: #69758a; }.compare-grid strong:nth-child(2) { color: #7b8494; }
+.download-link { margin-top: 18px; }.suggested-actions { display: flex; flex-wrap: wrap; gap: 8px; }.suggested-actions .button-secondary { margin: 0; }
+footer { padding: 20px 4px; color: #738095; font-size: .85rem; }
+[hidden] { display: none !important; }
+@media (max-width: 480px) { .form-grid { grid-template-columns: 1fr; }.full { grid-column: auto; }.summary-grid { grid-template-columns: 1fr 1fr; }.compliance-row { grid-template-columns: 1fr auto; }.compliance-row span:nth-child(2) { grid-row: 2; grid-column: 1 / -1; color: #6c778a; }.compare-grid > div { grid-template-columns: 1fr 1fr; }.compare-grid > div span { grid-column: 1 / -1; } }
+@media (min-width: 768px) { .shell { padding-top: 48px; }.card { padding: 22px; } }

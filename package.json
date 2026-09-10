@@ -1,0 +1,22 @@
+{
+  "name": "image-requirement-fixer",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:browser": "playwright test",
+    "check": "npm run test && npm run build",
+    "fixtures": "node tests/fixtures/generate-fixtures.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "latest",
+    "typescript": "latest",
+    "vite": "latest",
+    "vitest": "latest",
+    "sharp": "latest",
+    "@types/node": "latest"
+  }
+}
