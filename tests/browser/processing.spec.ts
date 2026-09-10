@@ -83,8 +83,8 @@ test('crop drag changes the final sampled source region', async ({ page }) => {
   await page.mouse.down(); await page.mouse.move(box.x + box.width / 2 - box.width * 0.25, box.y + box.height / 2, { steps: 5 }); await page.mouse.up();
   await page.getByRole('button', { name: 'Fix My Image' }).click();
   const output = await readOutputPixel(page, 300, 300);
-  expect(output.data[2]).toBeGreaterThan(output.data[0]);
-  expect(output.data[2]).toBeGreaterThan(output.data[1]);
+  expect(output.data[2]!).toBeGreaterThan(output.data[0]!);
+  expect(output.data[2]!).toBeGreaterThan(output.data[1]!);
 });
 
 test('Stretch forces exact 600x600 output dimensions', async ({ page }) => {

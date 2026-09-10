@@ -6,6 +6,7 @@ const source: SourceImageInfo = {
   width: 1200,
   height: 800,
   format: 'jpg',
+  mime: 'image/jpeg',
   bytes: 250_000,
   name: 'landscape.jpg',
 };
