@@ -19,7 +19,8 @@ p { line-height: 1.55; } .muted { color: #647084; } .small { font-size: .86rem; 
 .card { background: rgba(255,255,255,.96); border: 1px solid #e0e7ef; border-radius: 20px; padding: 18px; margin: 14px 0; box-shadow: 0 10px 30px rgba(40,65,100,.05); }
 .section-heading { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 16px; }
 .step-number { display: inline-grid; place-items: center; flex: 0 0 28px; height: 28px; border-radius: 999px; background: #e6f5f4; color: #096669; font-weight: 800; }
-.dropzone { display: grid; gap: 5px; place-items: center; padding: 26px 16px; border: 1.5px dashed #9bb4c5; border-radius: 16px; background: #f8fbfd; text-align: center; cursor: pointer; }
+.dropzone { display: grid; gap: 5px; place-items: center; padding: 26px 16px; border: 1.5px dashed #9bb4c5; border-radius: 16px; background: #f8fbfd; text-align: center; cursor: pointer; transition: border-color .15s ease, background .15s ease, box-shadow .15s ease; }
+.dropzone.is-dragging { border-color: #08777a; background: #eef9f8; box-shadow: 0 0 0 3px rgba(8,119,122,.12); }
 .dropzone input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 .dropzone-title { font-weight: 800; color: #0d6267; }
 .source-summary { margin-top: 16px; padding-top: 14px; border-top: 1px solid #e8edf3; }
