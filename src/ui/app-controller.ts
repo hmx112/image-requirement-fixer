@@ -127,11 +127,9 @@ export function mountApp(root: HTMLElement, preset: AppPreset = {}): void {
     }
   }
 
-  upload.input.addEventListener('change', async () => {
+  async function loadFile(file: File): Promise<void> {
     clearDownload();
     resultContainer.hidden = true;
-    const file = upload.input.files?.[0];
-    if (!file) return;
     const format = normalizeFormat(file.type || file.name.split('.').pop() || '');
     if (!format) {
       state.file = undefined; state.source = undefined; fixButton.disabled = true; previewCard.hidden = true;
@@ -152,6 +150,34 @@ export function mountApp(root: HTMLElement, preset: AppPreset = {}): void {
       upload.summary.hidden = false;
       upload.summary.innerHTML = `<p class="input-error">The browser couldn't decode this image.</p>`;
     }
+  }
+
+  upload.input.addEventListener('change', () => {
+    const file = upload.input.files?.[0];
+    if (file) void loadFile(file);
+  });
+
+  let dragDepth = 0;
+  upload.dropzone.addEventListener('dragenter', (event) => {
+    event.preventDefault();
+    dragDepth += 1;
+    upload.dropzone.classList.add('is-dragging');
+  });
+  upload.dropzone.addEventListener('dragover', (event) => {
+    event.preventDefault();
+    if (event.dataTransfer) event.dataTransfer.dropEffect = 'copy';
+    upload.dropzone.classList.add('is-dragging');
+  });
+  upload.dropzone.addEventListener('dragleave', () => {
+    dragDepth = Math.max(0, dragDepth - 1);
+    if (dragDepth === 0) upload.dropzone.classList.remove('is-dragging');
+  });
+  upload.dropzone.addEventListener('drop', (event) => {
+    event.preventDefault();
+    dragDepth = 0;
+    upload.dropzone.classList.remove('is-dragging');
+    const file = event.dataTransfer?.files?.[0];
+    if (file) void loadFile(file);
   });
 
   requirement.detect.addEventListener('click', () => {
