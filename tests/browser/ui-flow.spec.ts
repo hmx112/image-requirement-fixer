@@ -36,12 +36,23 @@ test('accepts a PNG dropped onto the upload zone', async ({ page }) => {
     return transfer;
   }, onePixelPngBase64);
 
+  const transferInfo = await dataTransfer.evaluate((transfer: DataTransfer) => ({
+    files: transfer.files.length,
+    items: transfer.items.length,
+    type: transfer.files[0]?.type,
+    name: transfer.files[0]?.name,
+  }));
+  expect(transferInfo).toEqual({ files: 1, items: 1, type: 'image/png', name: 'dropped.png' });
+
   await dropzone.dispatchEvent('dragenter', { dataTransfer });
   await expect(dropzone).toHaveClass(/is-dragging/);
   await dropzone.dispatchEvent('dragover', { dataTransfer });
   await dropzone.dispatchEvent('drop', { dataTransfer });
 
   await expect(dropzone).not.toHaveClass(/is-dragging/);
+  await page.waitForTimeout(300);
+  const summaryText = await page.locator('[data-source-summary]').textContent();
+  console.log('DROP_DIAGNOSTIC', JSON.stringify({ transferInfo, summaryText }));
   await expect(page.getByText('Original image')).toBeVisible();
   await expect(page.getByText('1×1 px')).toBeVisible();
   await expect(page.locator('[data-source-summary]')).toContainText('PNG');
