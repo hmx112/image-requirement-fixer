@@ -15,6 +15,8 @@ export default defineConfig({
         converter: resolve(root, 'image-format-converter/index.html'),
         webpToJpg: resolve(root, 'webp-to-jpg/index.html'),
         metadata: resolve(root, 'remove-image-metadata/index.html'),
+        epsTopikPhoto: resolve(root, 'ph/eps-topik-photo/index.html'),
+        epsTopikPassport: resolve(root, 'ph/eps-topik-passport/index.html'),
       },
     },
   },
