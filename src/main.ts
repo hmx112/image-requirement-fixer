@@ -13,7 +13,4 @@ mountApp(root, {
   height: pagePreset.height,
   maxSize: pagePreset.maxSize,
   maxSizeUnit: pagePreset.maxSizeUnit,
-  referenceUrl: pagePreset.referenceUrl,
-  referenceLabel: pagePreset.referenceLabel,
-  verificationText: pagePreset.verificationText,
 });
